@@ -11,6 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import Modal from 'react-native-modal';
@@ -27,6 +28,7 @@ interface PixCharge {
 
 const Dashboard: React.FC = () => {
   const apiUrl = "https://www.s24hrs.com.br/api/pix/create-charge-bets";
+  const url = 'https://pix.gerencianet.com.br/cob/pagar/'
 
   const [goal, setGoal] = React.useState<boolean>(false);
   const [apostar, setApostar] = React.useState<boolean>(true);
@@ -36,6 +38,8 @@ const Dashboard: React.FC = () => {
   const [nomeCompleto, setNomeCompleto] = React.useState("");
   const [valor, setValor] = React.useState<string>("");
   const [isLoading, setLoading] = React.useState(false);
+  const [activeTeam, setActiveTeam] = React.useState<string>("team1");
+  const [selectedTeam, setSelectedTeam] = React.useState<string>("team1");
 
   useEffect(() => {
     retrieveData();
@@ -57,7 +61,7 @@ const Dashboard: React.FC = () => {
     } catch (error) {
       console.log("Erro ao recuperar dados do armazenamento local:", error);
     }
-  };
+  }
 
   const storeData = async () => {
     try {
@@ -70,7 +74,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const players = [
+  const team1 = [
     { id: "1", name: "Rogério Ceni", number: 1 },
     { id: "2", name: "Leonardo", number: 2 },
     { id: "3", name: "Danillo", number: 3 },
@@ -81,14 +85,22 @@ const Dashboard: React.FC = () => {
     { id: "8", name: "Rivaldo", number: 8 },
     { id: "9", name: "Ronaldo", number: 9 },
     { id: "10", name: "Rivaldo", number: 10 },
-    { id: "11", name: "Ronaldinho", number: 11 },
-    { id: "12", name: "Dida", number: 12 },
-    { id: "13", name: "Belletti", number: 13 },
-    { id: "14", name: "Anderson Polga", number: 14 },
-    { id: "15", name: "Kaká", number: 15 },
-    { id: "16", name: "Gilberto Silva", number: 16 },
-    { id: "17", name: "Denílson", number: 17 },
-    { id: "18", name: "Vampeta", number: 18 },
+    { id: "11", name: "Ronaldinho", number: 11 }
+  ];
+  
+  // faca o team2 cm 11 jogadores
+  const team2 = [
+    { id: "1", name: "Marcos", number: 1 },
+    { id: "2", name: "Cafu", number: 2 },
+    { id: "3", name: "Lúcio", number: 3 },
+    { id: "4", name: "Roque Júnior", number: 4 },
+    { id: "5", name: "Edmílson", number: 5 },
+    { id: "6", name: "Roberto Carlos", number: 6 },
+    { id: "7", name: "Rivaldo", number: 7 },
+    { id: "8", name: "Gilberto Silva", number: 8 },
+    { id: "9", name: "Ronaldo", number: 9 },
+    { id: "10", name: "Ronaldinho", number: 10 },
+    { id: "11", name: "Kaká", number: 11 }
   ];
 
   const renderPlayerItem = ({
@@ -96,11 +108,35 @@ const Dashboard: React.FC = () => {
   }: {
     item: { id: string; name: string; number: number };
   }) => (
-    <View style={styles.playerItem}>
+    <View style={styles.centeredContainer}>
+    <View
+      style={[
+        styles.playerItem,
+        selectedTeam === activeTeam ? styles.selectedPlayerItem : null,
+      ]}
+    >
       <Text style={styles.playerName}>{item.number}</Text>
       <Text style={styles.playerName}>{item.name}</Text>
     </View>
+  </View>
   );
+
+  const renderPlayerList = () => {
+    let playersData: any = [];
+    if (activeTeam === "team1") {
+      playersData = team1;
+    } else if (activeTeam === "team2") {
+      playersData = team2;
+    }
+
+    return (
+      <FlatList
+        data={playersData}
+        renderItem={renderPlayerItem}
+        keyExtractor={(item) => item.id}
+      />
+    );
+  };
 
   const playGoalSound = async () => {
     try {
@@ -141,8 +177,9 @@ const Dashboard: React.FC = () => {
         const responseData = await response.json();
         console.log("Resposta da API:", responseData);
 
+        const { location } = responseData
         if (location) {
-          Linking.openURL('https://' + responseData.loc.location);
+          Linking.openURL(url + location.substr(location.lastIndexOf('/') + 1));
         }
 
         storeData();
@@ -166,43 +203,63 @@ const Dashboard: React.FC = () => {
         <Card style={styles.cardContainer}>
           <View style={styles.teamContainer}>
             <Image
-              source={require("../../assets/image 2.png")}
+              source={require("../../assets/image2.png")}
               style={styles.teamImage}
             />
             <Text style={styles.scoreText}>0 : 2</Text>
             <Image
-              source={require("../../assets/image 5.png")}
+              source={require("../../assets/image5.png")}
               style={styles.teamImage}
             />
           </View>
         </Card>
       </ImageBackground>
-      <View style={styles.historyContainer}>
+      {/* <View style={styles.historyContainer}>
         <Image
           source={require("../../assets/history.png")}
           style={styles.history}
         />
-        <View style={styles.shadow} />
-      </View>
+      </View> */}
       <View style={styles.menuContainer}>
         <Text style={styles.menuText}>Jogadores</Text>
         <View style={styles.teamIconsContainer}>
-          <Image
-            source={require("../../assets/image 2.png")}
-            style={styles.teamIcon}
-          />
-          <Image
-            source={require("../../assets/image 5.png")}
-            style={styles.teamIcon}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              setActiveTeam("team1");
+              setSelectedTeam("team1");
+            }}
+            style={[
+              styles.teamIcon,
+              selectedTeam === "team1" ? styles.selectedTeamIcon : null,
+            ]}
+          >
+            <Image
+              source={require("../../assets/image2.png")}
+              style={styles.teamIconImage}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setActiveTeam("team2");
+              setSelectedTeam("team2");
+            }}
+            style={[
+              styles.teamIcon,
+              selectedTeam === "team2" ? styles.selectedTeamIcon : null,
+            ]}
+          >
+            <Image
+              source={require("../../assets/image5.png")}
+              style={styles.teamIconImage}
+            />
+          </TouchableOpacity>
         </View>
       </View>
-      <FlatList
-        style={styles.playerList}
-        data={players}
-        renderItem={renderPlayerItem}
-        keyExtractor={(item) => item.id}
-      />
+      <ScrollView style={styles.playerListContainer}>
+        <ScrollView style={styles.playerListContainer}>
+          {renderPlayerList()}
+        </ScrollView>
+      </ScrollView>
       {goal && (
         <Image source={require("../../assets/goal.gif")} style={styles.goal} />
       )}
@@ -212,7 +269,7 @@ const Dashboard: React.FC = () => {
         </TouchableOpacity>
       )}
       <TouchableOpacity style={styles.betButton} onPress={toggleModal}>
-        <Text style={styles.betButtonText}>Realizar Pagamento</Text>
+        <Text style={styles.betButtonText}>Apostar</Text>
       </TouchableOpacity>
       <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
         <View style={styles.modalContainer}>

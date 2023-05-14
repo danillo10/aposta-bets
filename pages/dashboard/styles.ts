@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native';
 
   const styles = StyleSheet.create({
+    layout: {
+    },
     container: {
-      flex: 1,
       alignItems: 'center',
+      justifyContent: 'center',
       width: '100%',
-      height: '200px',
+      height: 200,
     },
     text: {
       fontSize: 20,
@@ -13,9 +15,7 @@ import { StyleSheet } from 'react-native';
       color: '#fff',
     },
     image: {
-      flex: 1,
       width: '100%',
-      height: '200px',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -27,20 +27,15 @@ import { StyleSheet } from 'react-native';
       height: 50,
     },
     liveText: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: '30px',
       textAlign: 'center',
       fontFamily: 'Roboto',
       fontSize: 30,
       color: '#fff',
+      marginTop: 30,
     },
     teamContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginTop: 60,
-      justifyContent: 'center', // Adicionado para centralizar os elementos horizontalmente
     },
     teamImage: {
       width: 80,
@@ -55,66 +50,36 @@ import { StyleSheet } from 'react-native';
     },
     cardContainer: {
       borderRadius: 8,
-      elevation: 4,
-      marginHorizontal: 16,
-      marginVertical: 10,
-      padding: 16,
-      backgroundColor: 'transparent',
+      padding: 0,
+      elevation: 0,
+      marginTop: 20,
     },
     historyContainer: {
-      position: 'absolute',
-      top: '27%',
-      left: 0,
-      right: 0,
       alignItems: 'center',
-      zIndex: 1,
+      justifyContent: 'flex-start',
       width: '100%',
-      height: '100%',
     },
     history: {
-      position: 'absolute',
-      top: '0',
-      width: '94%',
-      height: 200,
-      shadowColor: '#4D4D4D',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 4,
+      width: '90%',
+      height: 150,
       borderRadius: 8,
-    },
-    shadow: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: 20,
+      position: 'relative',
+      marginTop: 20,
     },
     menuContainer: {
-      position: 'absolute',
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: 16,
-      backgroundColor: '#F5F5F5',
-      top: '450px',
-      width: '100%'
+      width: '100%',
+      height: 90,
+      paddingLeft: 20,
     },
     menuText: {
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: 'bold',
     },
-    teamIconsContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    teamIcon: {
-      width: 30,
-      height: 30,
-      marginHorizontal: 8,
-    },
     playerItem: {
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: 'bold',
       padding: 8,
       borderWidth: 1,
@@ -124,10 +89,9 @@ import { StyleSheet } from 'react-native';
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      width: '100%',
+      width: '90%',
       marginTop: 10,
       marginBottom: 10,
-      backgroundColor: '#FFFFFF',
       shadowColor: '#9A9A9A',
       shadowOffset: { width: 0, height: 0 },
       shadowOpacity: 0.25,
@@ -135,12 +99,10 @@ import { StyleSheet } from 'react-native';
       borderRadius: 10,
     },  
     playerList: {
-      position: 'absolute',
-      top: 520,
-      width: '100%',
+      width: '90%',
       padding: 5,
       color: '#767676',
-      fontFamily: 'Inter',
+      fontFamily: 'Roboto',
       fontWeight: 500,
       overflow: 'scroll',
       backgroundColor: '#F5F5F5',
@@ -151,7 +113,7 @@ import { StyleSheet } from 'react-native';
     },
     playerName: {
       marginLeft: 12,
-      fontSize: 23,
+      fontSize: 18,
     },
     goal: {
       position: 'absolute',
@@ -176,9 +138,9 @@ import { StyleSheet } from 'react-native';
       color: '#fff',
     },
     modalContainer: {
-      backgroundColor: '#FFF',
       borderRadius: 8,
       padding: 20,
+      backgroundColor: '#fff'
     },
     modalTitle: {
       fontSize: 18,
@@ -193,12 +155,6 @@ import { StyleSheet } from 'react-native';
     },
     modalText: {
       fontSize: 16,
-      marginBottom: 20,
-    },
-    qrCodeImage: {
-      width: 200,
-      height: 200,
-      alignSelf: 'center',
       marginBottom: 20,
     },
     closeButton: {
@@ -231,6 +187,41 @@ import { StyleSheet } from 'react-native';
       fontSize: 16,
       color: '#000',
       marginBottom: 16,
+    },
+    playerListContainer: {
+      height: 400, // Defina a altura desejada
+    },    
+    teamIconsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 10,
+      width: 80,
+      marginRight: 20,
+    },
+    teamIcon: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 2,
+      borderColor: '#ccc',
+      borderRadius: 50,
+      width: 40,
+      height: 40,
+      marginRight: 10,
+    },
+    selectedTeamIcon: {
+      backgroundColor: '#f8f8f8',
+    },
+    teamIconImage: {
+      width: 30,
+      height: 30,
+    },
+    selectedPlayerItem: {
+      backgroundColor: '#f8f8f8',
+    },
+    centeredContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 
