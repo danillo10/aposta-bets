@@ -53,6 +53,7 @@ import { StyleSheet } from 'react-native';
       padding: 0,
       elevation: 0,
       marginTop: 20,
+      backgroundColor: 'transparent',
     },
     historyContainer: {
       alignItems: 'center',
